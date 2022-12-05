@@ -31,8 +31,14 @@ async function run() {
             const result = await shopCollection.find(query).toArray();
             res.send(result);
         })
+        //get limited data for shop page
+        app.get('/shop2', async (req, res) => {
+            const query = {};
+            const result = await shopCollection.find(query).limit(2).toArray();
+            res.send(result)
+        })
         // get specific products by id
-        app.get('/shopProducts/:id', async (req, res) => {
+        app.get('/shop/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await shopCollection.findOne(query);
