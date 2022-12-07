@@ -15,7 +15,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const featuredCollection = client.db('chairish').collection('featured');
-        const shopCollection = client.db('chairish').collection('shopProducts')
+        const shopCollection = client.db('chairish').collection('shopProducts');
+        const addProductsCollection = client.db('chairish').collection('addedProducts');
+
 
         //getting data for featured section
         app.get('/featured', async (req, res) => {
@@ -24,14 +26,14 @@ async function run() {
             res.send(result);
         })
 
-        //api endpoints for shop section
-        //getting api
+        // api endpoints for shop section
+        // getting api
         app.get('/shopProducts', async (req, res) => {
             const query = {};
             const result = await shopCollection.find(query).toArray();
             res.send(result);
         })
-        //get limited data for shop page
+        // get limited data for shop page
         app.get('/shop2', async (req, res) => {
             const query = {};
             const result = await shopCollection.find(query).limit(2).toArray();
@@ -43,6 +45,12 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await shopCollection.findOne(query);
             res.send(result);
+        })
+        // post shop products to add products collection in data base
+        app.post('/addProducts', async (req, res) => {
+            const body = req.body;
+            const result = await addProductsCollection.insertOne(body);
+            res.send(result)
         })
     }
     finally {
