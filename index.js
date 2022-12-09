@@ -52,6 +52,13 @@ async function run() {
             const result = await addProductsCollection.insertOne(body);
             res.send(result)
         })
+        //getting data for cart page
+        app.get('/cart/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await addProductsCollection.findOne(query);
+            res.send(result);
+        })
     }
     finally {
 
