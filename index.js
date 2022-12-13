@@ -59,6 +59,12 @@ async function run() {
             const result = await addProductsCollection.findOne(query);
             res.send(result);
         })
+        //getting data for navbar cart
+        app.get('/viewCart', async (req, res) => {
+            const query = {};
+            const result = await addProductsCollection.find(query).toArray();
+            res.send(result);
+        })
     }
     finally {
 
